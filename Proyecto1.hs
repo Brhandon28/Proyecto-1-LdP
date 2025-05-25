@@ -1,5 +1,13 @@
+{-
+Ronald Herrera CI: 29.567.199
+Brhandon Palomo CI: 30.291.267
+-}
+
+
 module DraftBeers where
 
+-- Definición del tipo Barrel
+-- Un barril se representa como una tupla (capacidad, cantidad actual)
 type Barrel = (Int, Int)
 
 -- Iniciar los barriles A, B y C

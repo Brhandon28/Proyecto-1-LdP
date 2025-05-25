@@ -1,4 +1,4 @@
-# Proyecto-1-LdP
+# Draft Beers
 
 Este proyecto implementa en Haskell la lógica para gestionar el llenado, transferencia y servicio de cerveza entre tres barriles (A, B y C), cada uno representado como una tupla `(capacidad, cantidadActual)`. El objetivo es simular de manera eficiente cómo se puede servir una cantidad específica de cerveza utilizando los barriles disponibles, respetando siempre sus capacidades y restricciones.
 

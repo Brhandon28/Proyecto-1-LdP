@@ -22,7 +22,7 @@ El código está organizado de forma modular, facilitando la extensión y modifi
 
 A continuación se presenta una explicación más formal y detallada de las funciones clave del proyecto:
 
-- **findBestSolution:** Esta función centraliza la lógica para encontrar la mejor manera de servir una cantidad específica de cerveza. Primero verifica si el estado actual de los barriles es una solución válida usando `iSolution`. Si es así, retorna el estado actual y un cero indicando que no fue necesario añadir cerveza. Si no, evalúa si alguno de los barriles puede servir la cantidad solicitada mediante `verifyBarrels`. En caso afirmativo, utiliza `servBeer` y `whoServ` para determinar el barril más eficiente para servir. Si ninguna condición se cumple, retorna el estado original, indicando que no es posible servir la cantidad deseada.
+- **`findBestSolution:`** Esta función centraliza la lógica para encontrar la mejor manera de servir una cantidad específica de cerveza. Primero verifica si el estado actual de los barriles es una solución válida usando `iSolution`. Si es así, retorna el estado actual y un cero indicando que no fue necesario añadir cerveza. Si no, evalúa si alguno de los barriles puede servir la cantidad solicitada mediante `verifyBarrels`. En caso afirmativo, utiliza `servBeer` y `whoServ` para determinar el barril más eficiente para servir. Si ninguna condición se cumple, retorna el estado original, indicando que no es posible servir la cantidad deseada.
 
 - **initialBarrels:** Recibe tres barriles y devuelve su nuevo estado tras comprobar si alguno excede su capacidad. Si hay exceso, utiliza `transferBeer` para redistribuir la cerveza. Cada caso está cuidadosamente gestionado para asegurar que los barriles nunca superen su capacidad máxima.
 

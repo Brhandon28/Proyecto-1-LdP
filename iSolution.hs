@@ -2,6 +2,7 @@ module DraftBeers where
 
 type Barrel = (Int, Int)
 
+-- Iniciar los barriles A, B y C
 initialBarrels :: Barrel -> Barrel -> Barrel  -> (Barrel, Barrel, Barrel)
 initialBarrels b1 b2 b3
     | (uncurry (-) b1 >= 0) && (uncurry (-) b2 >= 0) && (uncurry (-) b3 >= 0)  = (b1, b2, b3)
@@ -32,6 +33,7 @@ initialBarrels b1 b2 b3
 
     | otherwise = ((fst b1, fst b1), (fst b2, fst b2), (fst b3, fst b3)) --Caso donde todos los barriles exceden la cantidad de cerveza
 
+-- Verificar las capacidades de los barriles
 verifyBarrels :: (Barrel, Barrel, Barrel) -> Int -> Bool
 verifyBarrels ((a,b), (c,d), (e,f)) i
     | a >= i = True
@@ -39,6 +41,7 @@ verifyBarrels ((a,b), (c,d), (e,f)) i
     | e >= i = True
     | otherwise = False
 
+-- Verificar si se pueden servir los vasos deseados
 iSolution :: (Barrel, Barrel, Barrel) -> Int -> Bool
 iSolution ((a,b), (c,d), (e,f)) i
     | b >= i && a >= i = True
@@ -46,12 +49,13 @@ iSolution ((a,b), (c,d), (e,f)) i
     | f >= i && e >= i = True
     | otherwise = False
 
+-- Anadir cerveza a los barriles
 addBeer :: Int -> Barrel -> (Barrel, Int)
 addBeer i (a,b)
     | b + i <= a = ((a, b + i), 0)
     | otherwise = ((a, a), b + i - a)
 
-
+-- Transferir cerveza entre los barriles
 transferBeer :: Barrel -> Int -> [Barrel] -> [Barrel]
 transferBeer x i bs
   -- Caso base: todos los barriles llenos
@@ -104,11 +108,13 @@ transferBeer x i bs
     c = last bs
     available (cap, curr) = cap - curr
 
+-- Determinar si A o B sirven para llenar a B
 aOrC :: Barrel -> Barrel -> (Int, Int)
 aOrC (a,b) (c,d)
     | a-b <= c-d = (a, b)
     | otherwise = (c, d)
 
+-- Calculas la cantidad de cerveza para que se llene un barril
 calcQuantBeer :: Int -> String -> [Barrel] -> Int
 calcQuantBeer i s bs
     | s == "A" = i - snd a
@@ -120,6 +126,7 @@ calcQuantBeer i s bs
      b = head (tail bs)
      c = last bs
 
+-- Determinar cual barril sera el que sirva la cerveza
 whoServ :: Int -> [Barrel] -> (Barrel, Int)
 whoServ x bs = determineBarrel x (map fst (filter (\(_, b) -> x <= b) (zip ["A", "B", "C"] (map fst bs)))) bs
 
@@ -146,7 +153,7 @@ determineBarrel i st bs
     quantAddB = calcQuantBeer i "B" bs
     quantAddC = calcQuantBeer i "C" bs
 
-
+-- Servir la cerveza
 servBeer :: (Barrel, Int) -> [Barrel] -> (Int, (Barrel, Barrel, Barrel))
 servBeer (x, s) bs
     | x == a = modifyBarrelState "A" (fst (addBeer s a), s) bs
@@ -167,6 +174,7 @@ servBeer (x, s) bs
     b = head (tail bs)
     c = last bs
 
+-- Modificar el estado del barril
 modifyBarrelState :: String -> (Barrel, Int) -> [Barrel] -> (Int, (Barrel, Barrel, Barrel))
 modifyBarrelState st (x, s) bs
     | st == "A" = (s, (x, b, c))
@@ -178,6 +186,7 @@ modifyBarrelState st (x, s) bs
     b = head (tail bs)
     c = last bs
 
+-- Encontrar la mejor solucion para servir cerveza
 findBestSolution :: Int -> (Barrel, Barrel, Barrel) -> (Int, (Barrel, Barrel, Barrel))
 findBestSolution i (a, b, c)
     | verifyBarrels (a, b, c) i && not (iSolution (a, b, c) i) = servBeer (whoServ i [d, e, f]) [d, e, f]

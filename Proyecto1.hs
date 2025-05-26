@@ -78,7 +78,7 @@ transferBeer x i bs
          else
            transferBeer newB (overflow * (-1)) [a, newB, c]
 
-  -- Transferir a a si b es el origen y a tiene más espacio o igual que c
+  -- Transferir a a si b es el origen y a tiene menos cantidad que c
   | x == b && (snd a < snd c) && uncurry (>) a =
       let (newA, overflowA) = addBeer i a
       in if overflowA == 0
@@ -86,7 +86,7 @@ transferBeer x i bs
          else
            transferBeer newA overflowA [newA, b, c]
 
-  -- Transferir a c si b es el origen y c tiene más espacio que a
+  -- Transferir a c si b es el origen y c tiene menos cantidad que a
   | x == b && (snd c < snd a) && uncurry (>) c =
       let (newC, overflowC) = addBeer i c
       in if overflowC == 0
@@ -102,7 +102,7 @@ transferBeer x i bs
          else
            transferBeer newA overflowA [newA, b, c]
 
-  -- Transferir a a si b es el origen y a tiene más espacio o igual que c
+  -- si b es el origen y ni a ni c tienen espacio disponible
   | x == b && (((snd a <= snd c) && uncurry (==) a) || ((snd c <= snd a) && uncurry (==) c)) = bs
 
   -- Si no hay nada que transferir, devolver el estado actual
